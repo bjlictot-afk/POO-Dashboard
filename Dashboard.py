@@ -1,8 +1,12 @@
 import os
 import subprocess
 
+# Autora: Bélgica Jomayra Licto Timbila
+# Materia: Programación Orientada a Objetos
+# Descripción: Dashboard personalizado para organizar tareas y scripts del curso
+# Cambio realizado: Se agregó nombre completo del estudiante en la bienvenida
+
 def mostrar_codigo(ruta_script):
-    # Asegúrate de que la ruta al script es absoluta
     ruta_script_absoluta = os.path.abspath(ruta_script)
     try:
         with open(ruta_script_absoluta, 'r') as archivo:
@@ -21,23 +25,24 @@ def ejecutar_codigo(ruta_script):
     try:
         if os.name == 'nt':  # Windows
             subprocess.Popen(['cmd', '/k', 'python', ruta_script])
-        else:  # Unix-based systems
+        else:
             subprocess.Popen(['xterm', '-hold', '-e', 'python3', ruta_script])
     except Exception as e:
         print(f"Ocurrió un error al ejecutar el código: {e}")
 
 def mostrar_menu():
-    # Define la ruta base donde se encuentra el dashboard.py
     ruta_base = os.path.dirname(__file__)
-
     unidades = {
         '1': 'Unidad 1',
         '2': 'Unidad 2'
     }
 
     while True:
+        # Aquí agregamos la personalización del mensaje de bienvenida
+        print("\nBienvenida al Dashboard de Programación Orientada a Objetos")
+        print("Estudiante: Bélgica Jomayra Licto Timbila")  # <- CAMBIO HECHO
+
         print("\nMenu Principal - Dashboard")
-        # Imprime las opciones del menú principal
         for key in unidades:
             print(f"{key} - {unidades[key]}")
         print("0 - Salir")
@@ -56,7 +61,6 @@ def mostrar_sub_menu(ruta_unidad):
 
     while True:
         print("\nSubmenú - Selecciona una subcarpeta")
-        # Imprime las subcarpetas
         for i, carpeta in enumerate(sub_carpetas, start=1):
             print(f"{i} - {carpeta}")
         print("0 - Regresar al menú principal")
@@ -79,7 +83,6 @@ def mostrar_scripts(ruta_sub_carpeta):
 
     while True:
         print("\nScripts - Selecciona un script para ver y ejecutar")
-        # Imprime los scripts
         for i, script in enumerate(scripts, start=1):
             print(f"{i} - {script}")
         print("0 - Regresar al submenú anterior")
@@ -89,7 +92,7 @@ def mostrar_scripts(ruta_sub_carpeta):
         if eleccion_script == '0':
             break
         elif eleccion_script == '9':
-            return  # Regresar al menú principal
+            return
         else:
             try:
                 eleccion_script = int(eleccion_script) - 1
@@ -110,7 +113,5 @@ def mostrar_scripts(ruta_sub_carpeta):
             except ValueError:
                 print("Opción no válida. Por favor, intenta de nuevo.")
 
-# Ejecutar el dashboard
 if __name__ == "__main__":
     mostrar_menu()
-
