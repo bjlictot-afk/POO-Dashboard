@@ -1,26 +1,19 @@
 import os
 import subprocess
 
-# ==============================================
-# Dashboard POO - Universidad Estatal Amazónica
+# ==========================================
 # Autora: Bélgica Jomayra Licto Timbila
-# Descripción: Dashboard personalizado para organizar
-# scripts y actividades de la asignatura Programación
-# Orientada a Objetos. Contiene menú principal, submenús,
-# visualización y ejecución de scripts de Python.
-# ==============================================
+# Materia: Programación Orientada a Objetos
+# Descripción: Dashboard personalizado para organizar tareas y scripts del curso
+# ==========================================
 
-# Función para mostrar el código de un script
-# Parámetro: ruta del script (string con la ruta al archivo .py)
-# Retorna: el contenido del archivo como texto e imprime en pantalla
+# ==========================================
+# Función: mostrar_codigo
+# Descripción: Muestra en pantalla el código de un script .py
+# Parámetro: ruta_script (string) - ruta al archivo .py
+# Retorna: contenido del archivo como texto
+# ==========================================
 def mostrar_codigo(ruta_script):
-    """
-    Muestra el contenido de un archivo .py en la consola.
-    Parámetros:
-        ruta_script (str): Ruta del archivo Python.
-    Retorna:
-        codigo (str) si se pudo leer, None en caso contrario.
-    """
     ruta_script_absoluta = os.path.abspath(ruta_script)
     try:
         with open(ruta_script_absoluta, 'r') as archivo:
@@ -35,27 +28,26 @@ def mostrar_codigo(ruta_script):
         print(f"Ocurrió un error al leer el archivo: {e}")
         return None
 
-# Función para ejecutar un script de Python
+# ==========================================
+# Función: ejecutar_codigo
+# Descripción: Ejecuta un script .py en una nueva ventana de terminal
+# Parámetro: ruta_script (string) - ruta al archivo .py
+# ==========================================
 def ejecutar_codigo(ruta_script):
-    """
-    Ejecuta un archivo Python en una terminal separada.
-    Funciona en Windows y sistemas Unix-based.
-    """
     try:
         if os.name == 'nt':  # Windows
             subprocess.Popen(['cmd', '/k', 'python', ruta_script])
-        else:  # Unix/Linux/Mac
+        else:  # Sistemas Unix
             subprocess.Popen(['xterm', '-hold', '-e', 'python3', ruta_script])
     except Exception as e:
         print(f"Ocurrió un error al ejecutar el código: {e}")
 
-# Función del menú principal
+# ==========================================
+# Función: mostrar_menu
+# Descripción: Muestra el menú principal con las unidades
+# ==========================================
 def mostrar_menu():
-    """
-    Muestra el menú principal del dashboard y permite
-    seleccionar unidades de la asignatura.
-    """
-    ruta_base = os.path.dirname(__file__)  # Carpeta del dashboard
+    ruta_base = os.path.dirname(__file__)
 
     unidades = {
         '1': 'Unidad 1 - Fundamentos de POO',
@@ -64,11 +56,9 @@ def mostrar_menu():
 
     while True:
         print("\nBienvenida al Dashboard de Programación Orientada a Objetos")
-        # Personalización: nombre del estudiante
         print("Estudiante: Bélgica Jomayra Licto Timbila")
         print("\nMenu Principal - Dashboard POO")
 
-        # Mostrar las unidades disponibles
         for key in unidades:
             print(f"{key} - {unidades[key]}")
         print("0 - Salir")
@@ -83,12 +73,12 @@ def mostrar_menu():
         else:
             print("Opción no válida. Intenta de nuevo.")
 
-# Función para mostrar submenú con subcarpetas de cada unidad
+# ==========================================
+# Función: mostrar_sub_menu
+# Descripción: Muestra las subcarpetas de cada unidad
+# Parámetro: ruta_unidad (string) - ruta de la carpeta de la unidad
+# ==========================================
 def mostrar_sub_menu(ruta_unidad):
-    """
-    Lista las subcarpetas dentro de una unidad y permite
-    seleccionar scripts para ver o ejecutar.
-    """
     sub_carpetas = [f.name for f in os.scandir(ruta_unidad) if f.is_dir()]
 
     while True:
@@ -101,29 +91,28 @@ def mostrar_sub_menu(ruta_unidad):
 
         if eleccion_carpeta == '0':
             break
-        else:
-            try:
-                indice = int(eleccion_carpeta) - 1
-                if 0 <= indice < len(sub_carpetas):
-                    mostrar_scripts(os.path.join(ruta_unidad, sub_carpetas[indice]))
-                else:
-                    print("Opción no válida.")
-            except ValueError:
-                print("Opción no válida.")
+        try:
+            indice = int(eleccion_carpeta) - 1
+            if 0 <= indice < len(sub_carpetas):
+                mostrar_scripts(os.path.join(ruta_unidad, sub_carpetas[indice]))
+            else:
+                print("Opción no válida. Intenta de nuevo.")
+        except ValueError:
+            print("Opción no válida. Intenta de nuevo.")
 
-# Función para mostrar scripts dentro de una subcarpeta
+# ==========================================
+# Función: mostrar_scripts
+# Descripción: Lista los scripts .py disponibles en una subcarpeta
+# Parámetro: ruta_sub_carpeta (string) - ruta de la subcarpeta
+# ==========================================
 def mostrar_scripts(ruta_sub_carpeta):
-    """
-    Lista los scripts Python dentro de la subcarpeta,
-    permite ver su código y ejecutarlos.
-    """
     scripts = [f.name for f in os.scandir(ruta_sub_carpeta) if f.is_file() and f.name.endswith('.py')]
 
     while True:
-        print("\nScripts disponibles:")
+        print("\nScripts - Selecciona un script para ver y ejecutar")
         for i, script in enumerate(scripts, start=1):
             print(f"{i} - {script}")
-        print("0 - Regresar al submenú")
+        print("0 - Regresar al submenú anterior")
         print("9 - Regresar al menú principal")
 
         eleccion_script = input("Elige un script, '0' para regresar o '9' para ir al menú principal: ")
@@ -131,7 +120,7 @@ def mostrar_scripts(ruta_sub_carpeta):
         if eleccion_script == '0':
             break
         elif eleccion_script == '9':
-            return  # Volver al menú principal
+            return
         else:
             try:
                 indice = int(eleccion_script) - 1
@@ -142,16 +131,19 @@ def mostrar_scripts(ruta_sub_carpeta):
                         ejecutar = input("¿Desea ejecutar el script? (1: Sí, 0: No): ")
                         if ejecutar == '1':
                             ejecutar_codigo(ruta_script)
+                            print("Script ejecutado correctamente.")
                         elif ejecutar == '0':
                             print("No se ejecutó el script.")
                         else:
-                            print("Opción no válida.")
-                        input("\nPresiona Enter para volver al menú de scripts...")
+                            print("Opción no válida. Regresando al menú de scripts.")
+                        input("\nPresiona Enter para volver al menú de scripts.")
                 else:
-                    print("Opción no válida.")
+                    print("Opción no válida. Intenta de nuevo.")
             except ValueError:
-                print("Opción no válida.")
+                print("Opción no válida. Intenta de nuevo.")
 
-# Ejecutar el dashboard si se llama directamente
+# ==========================================
+# Ejecutar el dashboard
+# ==========================================
 if __name__ == "__main__":
     mostrar_menu()
