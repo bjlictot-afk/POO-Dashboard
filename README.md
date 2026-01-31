@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PROGRAMACION-ORIENTADA-A-OBJETOS
 Este repositorio contiene el código fuente desarrollado durante la asignatura **Programación Orientada a Objetos**, impartida en la **Universidad Estatal Amazónica**. Está diseñado como un recurso de apoyo para estudiantes y profesionales interesados en conceptos y prácticas de programación orientada a objetos.
 
@@ -39,3 +40,6 @@ Este repositorio incluye:
    ```bash
    git push -u origin main
 
+=======
+# POO-Dashboard
+>>>>>>> 2b79e29905dd79a08ded4619afb3c4721049151f
