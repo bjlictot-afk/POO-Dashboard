@@ -6,7 +6,7 @@ import subprocess
 # Descripción: Muestra en consola el contenido de un script Python
 # Parámetro: ruta_script (str) → ruta del archivo .py a mostrar
 # Retorna: el contenido del archivo en texto o None si ocurre un error
-# CAMBIO REAL: Ajuste de rutas de ejecución usando sys.executable
+# CAMBIO REAL: Uso de rutas absolutas para evitar errores al ejecutar scripts
 # ==========================================
 def mostrar_codigo(ruta_script):
     ruta_script_absoluta = os.path.abspath(ruta_script)
